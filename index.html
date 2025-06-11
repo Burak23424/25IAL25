@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Burak Can'dan Selamlar</title>
   <style>
+    /* --- SENİN CSS'İN AYNEN KORUNDU --- */
     html, body {
       margin: 0;
       padding: 0;
@@ -24,15 +25,7 @@
       z-index: 1;
     }
 
-    .stars {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
-      z-index: 2;
-    }
-
+    .stars { position: absolute; width: 100%; height: 100%; background: transparent; overflow: hidden; z-index: 2; }
     .stars div {
       position: absolute;
       width: 2px;
@@ -41,21 +34,12 @@
       border-radius: 50%;
       animation: fall linear infinite, sparkle 2s infinite ease-in-out;
     }
-
-    @keyframes fall {
-      0% { transform: translateY(-10px); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
+    @keyframes fall { 0% { transform: translateY(-10px); opacity: 1; } 100% { transform: translateY(100vh); opacity: 0; } }
+    @keyframes sparkle { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
     .start-button {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       z-index: 4;
       padding: 5vw 10vw;
@@ -65,15 +49,14 @@
       border: 0.8vw solid #00fff7;
       border-radius: 3vw;
       cursor: pointer;
-      text-shadow: 0 0 10px #00fff7;
       animation: glow 2s infinite alternate;
       text-align: center;
+      text-shadow: 0 0 10px #00fff7;
     }
 
     .message {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-size: 6vw;
       text-align: center;
@@ -86,9 +69,7 @@
       text-shadow: 0 0 20px #00fff7;
     }
 
-    .final-glow {
-      animation: glow 2s infinite alternate;
-    }
+    .final-glow { animation: glow 2s infinite alternate; }
 
     @keyframes glow {
       from { text-shadow: 0 0 10px #00fff7; }
@@ -146,10 +127,8 @@
       display: none;
       position: fixed;
       z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
       background-color: rgba(0, 0, 0, 0.8);
       overflow: hidden;
       justify-content: center;
@@ -161,8 +140,6 @@
       display: block;
       max-width: 90%;
       max-height: 80%;
-      width: auto;
-      height: auto;
       border-radius: 2vw;
     }
 
@@ -252,9 +229,22 @@
     <span class="next" onclick="changeImage(1); event.stopPropagation();">&#10095;</span>
   </div>
   <script>
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.volume = 1.0;
+
+    function startSite() {
+      document.querySelector('.start-button').style.display = 'none';
+      bgMusic.play().then(() => {
+        document.getElementById('eqBars').style.display = 'flex';
+      }).catch(e => {
+        alert("Müzik çalma hatası: " + e.message);
+      });
+      showMessage(0);
+    }
+
     const starsContainer = document.getElementById('stars');
     for (let i = 0; i < 150; i++) {
-      let star = document.createElement('div');
+      const star = document.createElement('div');
       star.style.left = Math.random() * 100 + 'vw';
       star.style.top = Math.random() * 100 + 'vh';
       star.style.animationDuration = 2 + Math.random() * 3 + 's';
@@ -274,7 +264,7 @@
 
     function showMessage(index) {
       if (index >= messages.length) return;
-      let msg = document.createElement('div');
+      const msg = document.createElement('div');
       msg.className = 'message';
       msg.innerText = messages[index];
       container.innerHTML = '';
@@ -290,47 +280,33 @@
       }
     }
 
-    function startSite() {
-      document.querySelector('.start-button').style.display = 'none';
-      document.getElementById('bgMusic').play();
-      document.getElementById('eqBars').style.display = 'flex';
-      showMessage(0);
-    }
-
     function toggleGallery() {
       const gallery = document.getElementById('gallery');
       gallery.style.display = gallery.style.display === 'none' ? 'flex' : 'none';
     }
 
-    let currentImageIndex = 0;
-    const images = [...Array(30)].map((_, i) => `resim${i + 1}.jpg`);
+    const images = [...Array(25)].map((_, i) => `resim${i + 1}.jpg`);
     const gallery = document.getElementById('gallery');
+    let currentImageIndex = 0;
 
-    images.forEach((src, index) => {
+    images.forEach((src, i) => {
       const img = document.createElement('img');
       img.src = src;
-      img.alt = `Resim ${index + 1}`;
-      img.onclick = () => openModal(index);
+      img.alt = `Resim ${i + 1}`;
+      img.onclick = () => openModal(i);
       gallery.appendChild(img);
     });
 
-    const videos = [
-      { src: 'video1.mp4', thumbnail: 'video1-thumbnail.jpg' },
-      { src: 'video2.mp4', thumbnail: 'video2-thumbnail.jpg' },
-      { src: 'video3.mp4', thumbnail: 'video3-thumbnail.jpg' },
-      { src: 'video4.mp4', thumbnail: 'video4-thumbnail.jpg' },
-      { src: 'video5.mp4', thumbnail: 'video5-thumbnail.jpg' },
-      { src: 'video6.mp4', thumbnail: 'video6-thumbnail.jpg' },
-      { src: 'video7.mp4', thumbnail: 'video7-thumbnail.jpg' },
-      { src: 'video8.mp4', thumbnail: 'video8-thumbnail.jpg' },
-      { src: 'video9.mp4', thumbnail: 'video9-thumbnail.jpg' }
-    ];
+    const videos = [...Array(15)].map((_, i) => ({
+      src: `video${i + 1}.mp4`,
+      thumbnail: `video${i + 1}-thumbnail.jpg`
+    }));
 
     videos.forEach(({ src, thumbnail }) => {
       const video = document.createElement('video');
       video.src = src;
       video.poster = thumbnail;
-      video.controls = true;
+      video.muted = true;
       video.onclick = (e) => {
         e.preventDefault();
         openVideo(src);
@@ -351,24 +327,24 @@
       document.getElementById('modal-img').style.display = 'none';
       document.getElementById('modal-video').style.display = 'block';
       document.getElementById('modal').style.display = 'flex';
-      document.getElementById('bgMusic').pause();
+      bgMusic.pause();
       document.getElementById('modal-video').play();
     }
 
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
       document.getElementById('modal-video').pause();
-      document.getElementById('bgMusic').play();
+      bgMusic.play();
     }
 
-    function changeImage(direction) {
-      currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+    function changeImage(dir) {
+      currentImageIndex = (currentImageIndex + dir + images.length) % images.length;
       openModal(currentImageIndex);
     }
 
     window.onload = () => {
       document.getElementById('gallery').style.display = 'none';
-    }
+    };
   </script>
 </body>
 </html>
